@@ -17,10 +17,12 @@ import { Layout } from "./layout.jsx";
 import "./index.css";
 
 const ALL_PEOPLE = gql`
-  query AllPeople {
+  query AllPeople($prefix: String) {
     people {
       id
       name
+      prefixedName1: prefixedName
+      prefixedName2: prefixedName(prefix: $prefix)
     }
   }
 `;
@@ -78,7 +80,7 @@ function App() {
       ) : (
         <ul>
           {data?.people.map((person) => (
-            <li key={person.id}>{person.name}</li>
+            <li key={person.id}>{person.prefixedName1}</li>
           ))}
         </ul>
       )}

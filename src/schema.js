@@ -12,6 +12,13 @@ const PersonType = new GraphQLObjectType({
   fields: {
     id: { type: GraphQLID },
     name: { type: GraphQLString },
+    prefixedName: {
+      type: GraphQLString,
+      args: { prefix: { type: GraphQLString } },
+      resolve: (source, args) => {
+        return args.prefix ? `${args.prefix} ${source.name}` : source.name;
+      },
+    },
   },
 });
 
@@ -26,6 +33,7 @@ const QueryType = new GraphQLObjectType({
   fields: {
     people: {
       type: new GraphQLList(PersonType),
+      args: { prefix: { type: GraphQLString } },
       resolve: () => peopleData,
     },
   },
